@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 const formSchema = yup.object().shape({
-    username: yup
+    first_name: yup
     .string()
     .trim()
     .required('username is required')
@@ -19,7 +19,8 @@ const formSchema = yup.object().shape({
     "Password must contain at least 8 characters, one uppercase, one number and one special case character"
   ),
 
-  terms: yup.boolean(),
+  terms: yup.boolean()
+  .oneOf([true], 'you must accept terms')
 
 })
 export default formSchema;

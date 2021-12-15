@@ -9,14 +9,14 @@ import User from './User'
 
 
 const initialFormValues = {
-  username: '',
+  first_name: '',
   email: '',
   password: '',
   terms: false,
 }
 
 const initialFormErrors = {
-  username: '',
+  first_name: '',
   email: '',
   password: '',
   terms: '',
@@ -34,7 +34,6 @@ function App() {
   const getUsers = () => {
     axios.get(`https://reqres.in/api/users`)
     .then(response => {
-      console.log(response.data.data)
       setUsers(response.data.data);
     })
     .catch(error => console.error(error))
@@ -43,7 +42,6 @@ function App() {
   const postNewUser = newUser => {
     axios.post(`https://reqres.in/api/users`, newUser)
     .then(response => {
-      console.log(response.data)
       setUsers([ response.data, ...users])
     }).catch(error => console.error(error))
     .finally(() => setFormValues(initialFormValues))
@@ -67,7 +65,7 @@ function App() {
 
   const formSubmit = () => {
     const newUser = {
-      username: formValues.username.trim(),
+      first_name: formValues.first_name.trim(),
       email: formValues.email.trim(),
       password: formValues.password.trim(),
       terms: ['accept'].filter(term => !!formValues[term])
@@ -102,17 +100,3 @@ function App() {
 }
 
 export default App;
-
-
-/* <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a> */

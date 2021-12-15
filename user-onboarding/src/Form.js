@@ -27,7 +27,7 @@ export default function UserForm(props) {
                 <button>submit</button>
 
                 <div className='errors'>
-                    <div>{errors.username}</div>
+                    <div>{errors.first_name}</div>
                     <div>{errors.email}</div>
                     <div>{errors.password}</div>
                     <div>{errors.terms}</div>
@@ -39,7 +39,7 @@ export default function UserForm(props) {
                         <input
                             value={values.username}
                             onChange={onChange}
-                            name='username'
+                            name='first_name'
                             type='text'
                         />
                     </label>
