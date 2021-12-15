@@ -1,10 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
-import Form from './Form';
+import UserForm from './Form';
 import schema from './formSchema';
 import * as yup from 'yup';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import User from './User'
+
 
 const initialFormValues = {
   username: '',
@@ -32,7 +34,8 @@ function App() {
   const getUsers = () => {
     axios.get(`https://reqres.in/api/users`)
     .then(response => {
-      console.log(response)
+      console.log(response.data.data)
+      setUsers(response.data.data);
     })
     .catch(error => console.error(error))
   }
@@ -40,6 +43,7 @@ function App() {
   const postNewUser = newUser => {
     axios.post(`https://reqres.in/api/users`, newUser)
     .then(response => {
+      console.log(response.data)
       setUsers([ response.data, ...users])
     }).catch(error => console.error(error))
     .finally(() => setFormValues(initialFormValues))
@@ -51,13 +55,56 @@ function App() {
     .then(() => setFormErrors({ ...formErrors, [name]: ''}))
     .catch(err => setFormErrors({ ...formErrors, [name]: err.errors[0]}))
   }
+
   //event handlers
+  const inputChange = (name, value) => {
+    validate(name, value);
+    setFormValues({
+      ...formValues,
+      [name]: value
+    })
+  }
+
+  const formSubmit = () => {
+    const newUser = {
+      username: formValues.username.trim(),
+      email: formValues.email.trim(),
+      password: formValues.password.trim(),
+      terms: ['accept'].filter(term => !!formValues[term])
+    }
+    postNewUser(newUser);
+  }
+
   //side effects
+  useEffect(() => {
+    getUsers()
+  }, [])
+
   //return
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <UserForm 
+          values={formValues}
+          change={inputChange}
+          submit={formSubmit}
+          errors={formErrors}
+        />
+      </header>
+      {users.map(user => {
+        return (
+          <User key={user.id} details={user} />
+        )
+      })
+     }
+    </div>
+  )
+}
+
+export default App;
+
+
+/* <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
@@ -68,10 +115,4 @@ function App() {
           rel="noopener noreferrer"
         >
           Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-
-export default App;
+        </a> */
