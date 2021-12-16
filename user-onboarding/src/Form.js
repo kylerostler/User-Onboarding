@@ -24,7 +24,7 @@ export default function UserForm(props) {
             <div className='user-group submit'>
                 <h2>register</h2>
 
-                <button>submit</button>
+                <button id='submitBtn'>submit</button>
 
                 <div className='errors'>
                     <div>{errors.first_name}</div>
