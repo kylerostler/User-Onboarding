@@ -90,4 +90,27 @@ describe('Register New User Form', () => {
             cy.contains('you must accept terms')
         })
     })
+
+    describe('throws error when field is left empty', () =>{
+        it('throw an error when empty', () => {
+        nameInput()
+        .should('have.value', '')
+        .type('a')
+        .clear()
+
+        emailInput()
+        .should('have.value', '')
+        .type('a')
+        .clear()
+
+        passwordInput()
+        .should('have.value', '')
+        .type('a')
+        .clear()
+
+        cy.contains('username is required')
+        cy.contains('you must enter an email')
+        cy.contains('please enter a password')
+        })
+    })
 })
